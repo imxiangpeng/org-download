@@ -286,6 +286,8 @@ EXT can hold the file extension, in case LINK doesn't provide it."
            (car (url-path-and-query
                  (url-generic-parse-url link))))))
         (dir (org-download--dir)))
+    ;; mxp, 20220708, support chinese filename
+    (setq filename (decode-coding-string (url-unhex-string filename) 'utf-8))
     (when (string-match ".*?\\.\\(?:png\\|jpg\\)\\(.*\\)$" filename)
       (setq filename (replace-match "" nil nil filename 1)))
     (when ext
