@@ -432,7 +432,10 @@ The screenshot tool is determined by `org-download-screenshot-method'."
   (format "#+DOWNLOADED: %s @ %s\n"
           (if (equal link org-download-screenshot-file)
               "screenshot"
-            link)
+            ;; mxp, 20220709, support chinese path for local file
+            (if (string= "file" (url-type (url-generic-parse-url link)))
+              (decode-coding-string (url-unhex-string link) 'utf-8)
+            link))
           (format-time-string "%Y-%m-%d %H:%M:%S")))
 
 (defvar org-download-annotate-function
